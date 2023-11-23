@@ -10,7 +10,7 @@ export interface IUser {
     candidatePassword: string,
     password: string
   ) => Promise<boolean>;
-  // purchasedItems: string[],
+  purchasedItems: string[];
 }
 
 // interface IUserMethods {
@@ -36,9 +36,13 @@ const UserSchema = new Schema<IUser>({
     default: 5000,
   },
 
-  // purchasedItems: {
-
-  // }
+  purchasedItems: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Product',
+      default: [],
+    },
+  ],
 });
 
 UserSchema.methods.correctPassword = async function (

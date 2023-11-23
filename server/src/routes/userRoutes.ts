@@ -29,7 +29,7 @@ router.post(
       }
 
       const hashedPassword = await bcrypt.hash(password, 12);
-      console.log(hashedPassword);
+      // console.log(hashedPassword);
 
       const newUser = new User({ email, password: hashedPassword });
       await newUser.save();
@@ -87,6 +87,7 @@ router.post(
       res.status(200).json({
         status: 'success',
         token,
+        expiresIn: process.env.JWT_EXPIRES_IN,
         data: {
           user,
         },
@@ -116,7 +117,7 @@ export const verifyToken = (
     jwt.verify(token, process.env.JWT_SECRET, (err: any) => {
       if (err) {
         return res.status(401).json({
-          status: 'fail',
+          status: 'fail jwt',
           message: UserErrors.UNAUTHORIZED,
         });
       }
@@ -125,5 +126,29 @@ export const verifyToken = (
     });
   }
 };
+
+router.get(
+  '/available-money/:userID',
+  verifyToken,
+  async (req: Request, res: Response) => {
+    const { userID } = req.params;
+
+    try {
+      const user = await User.findById(userID);
+
+      if (!user) {
+        res.status(404).json({ type: UserErrors.NO_USER_FOUND });
+      }
+
+      res.status(200).json({
+        availableMoney: user.availableMoney,
+      });
+    } catch (err) {
+      res.status(500).json({
+        type: err,
+      });
+    }
+  }
+);
 
 export { router as userRouter };

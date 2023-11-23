@@ -12,13 +12,15 @@ process.on('uncaughtException', (err: any) => {
 });
 
 import { userRouter } from './routes/userRoutes';
+import { productRouter } from './routes/productRoutes';
 
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use('*', cors());
 
 app.use('/api/users', userRouter);
+app.use('/api/products', productRouter);
 
 //  - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
