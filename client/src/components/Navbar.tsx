@@ -49,6 +49,7 @@ const Navbar = () => {
       </div>
 
       <div className='navbar-links'>
+        {/* start here */}
         {!state.isAuthenticated && (
           <>
             <Link to='/'> Shop </Link>

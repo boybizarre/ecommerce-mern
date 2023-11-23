@@ -17,6 +17,7 @@ const ShopPage = () => {
 
   // console.log(fetchedProducts?.data?.products, 'fetchedProducts');
 
+  // LOOK here
   // if (!state.isAuthenticated) {
   //   return <Navigate to='/auth' />;
   // }
